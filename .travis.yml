@@ -7,7 +7,11 @@ php:
 - 7.1
 
 before_script: composer install
-
+script:
+    - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+    - phpunit -v
+    - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+    - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
 script:
 - php test/setup/install.php
 - cd tests/phpunit/
