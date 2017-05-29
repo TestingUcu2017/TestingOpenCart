@@ -11,7 +11,6 @@ before_script: composer install
 notifications:
   slack:
     on_success: always
-notifications:
   email:
     recipients:
       - gerardo.ancha@gmail.com      
