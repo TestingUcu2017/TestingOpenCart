@@ -9,6 +9,8 @@ php:
 before_script: composer install
 
 script:
+- cd tests/phpunit/
+- composer update
 - vendor\bin\phpunit --bootstrap bootstrap.php opencart\admin
 - vendor\bin\phpunit --bootstrap bootstrap.php opencart\catalog
 - vendor\bin\phpunit --bootstrap bootstrap.php opencart\system
