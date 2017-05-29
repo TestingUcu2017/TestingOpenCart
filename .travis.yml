@@ -16,7 +16,9 @@ script:
 - php test/setup/install.php
 - cd tests/phpunit/
 - composer update
-
+- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/admin
+- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/catalog
+- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/system
 
 notifications:
   slack:
