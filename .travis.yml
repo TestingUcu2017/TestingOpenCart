@@ -3,6 +3,9 @@ php:
 - 5.4
 - hhvm
 
+services:
+  - mysql
+
 sudo: false
 
 before_script: composer install
