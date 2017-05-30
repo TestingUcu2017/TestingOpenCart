@@ -1,4 +1,6 @@
 # OpenCart
+# coveralls
+[![Coverage Status](https://coveralls.io/repos/github/TestingUcu2017/TestingOpenCart/badge.svg?branch=master)](https://coveralls.io/github/TestingUcu2017/TestingOpenCart?branch=master)
 
 ## Overview
 
