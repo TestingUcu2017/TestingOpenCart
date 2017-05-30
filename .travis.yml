@@ -12,9 +12,8 @@ install:
 - travis_retry composer install --no-interaction
 
 script:
-- composer validate --strict
 - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-- vendor/bin/phpunit -c tests/phpunit.xml
+- phpunit -c tests/phpunit.xml
 
 
 notifications:
