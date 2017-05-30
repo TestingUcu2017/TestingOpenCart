@@ -13,7 +13,7 @@ install:
 
 script:
 - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-- phpunit -c tests/phpunit.xml
+- phpunit -c tests/phpunit/phpunit.xml
 
 
 notifications:
