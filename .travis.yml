@@ -1,22 +1,18 @@
 language: php
-
 php:
 - 5.4
-- 5.5
-- 5.6
-- 7.0
-- 7.1
-sudo: false
-cache:
-  directories:
-    - $HOME/.composer/cache
-install:
-- travis_retry composer install --no-interaction
+
+before_script: composer install
 
 script:
-- composer validate --strict
-- find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-- vendor/bin/phpunit -c tests/phpunit.xml
+- cd tests/setup/
+- php install.php
+- cd ../phpunit/
+- composer update
+- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/admin
+- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/catalog
+- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/system
+
 
 notifications:
   slack:
