@@ -14,5 +14,7 @@ public class OpenCartTest {
 		HomePage homePage = new HomePage();
 		SearchResult searchResult = homePage.search("iMac"); 
 		searchResult.addToCart("iMac");
+		searchResult.removeFromCart("iMac");
+		searchResult.navigateToLogin();
 	}
 }
