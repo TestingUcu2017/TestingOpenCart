@@ -13,7 +13,7 @@ install:
 
 addons:
   sonarqube:
-    organization: "TestingUcu2017"
+    organization: "testingucu2017-github"
     token:
       secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
 
