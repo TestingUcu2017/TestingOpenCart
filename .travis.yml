@@ -27,6 +27,6 @@ notifications:
     on_success: always
   email:
     recipients:
-      - example@gmail.com      
+      - TestingUcu2017@gmail.com      
     on_success: never  # default: change
     on_failure: always # default: always
