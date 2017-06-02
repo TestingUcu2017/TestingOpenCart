@@ -6,16 +6,16 @@ import org.openqa.selenium.WebElement;
 
 import test.java.framework.SeleniumUtils;
 
-public class SearchResult {
+public class SearchResult extends OpenCartBasePage {
 	
-	private WebDriver driver;
 	public SearchResult(WebDriver driver){
-		this.driver = driver;
+		super(driver);
 	}
 	
 	public void addToCart(String prod) {
 		WebElement addToCartButton = SeleniumUtils.getWebElement(driver, By.xpath("(//h4//a[text()='"+ prod +"']//following::button[contains(@onclick,'cart.add')])[1]"), 30);
 		addToCartButton.click();
 	}
+	
 }
 

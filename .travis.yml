@@ -3,26 +3,31 @@ php:
 - 5.4
 - hhvm
 
+services:
+  - mysql
+
 sudo: false
 
-before_script: composer install
+install:
+- travis_retry composer install --no-interaction
+
+addons:
+  sonarqube:
+    organization: "testingucu2017-github"
+    token:
+      secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
 
 script:
-- cd tests/setup/
-- php install.php
-- cd ../phpunit/
-- composer update
-- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/admin
-- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/catalog
-- vendor/bin/phpunit --bootstrap bootstrap-dist.php opencart/system
+- find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
+- phpunit -c tests/phpunit/phpunit.xml
+- sonar-scanner
 - php vendor/codeception/codeception/codecept run api
-
 
 notifications:
   slack:
     on_success: always
   email:
     recipients:
-      - gerardo.ancha@gmail.com      
+      - TestingUcu2017@gmail.com      
     on_success: never  # default: change
     on_failure: always # default: always
