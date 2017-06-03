@@ -1,4 +1,8 @@
 # OpenCart
+
+# Travis CI
+[![Build Status](https://travis-ci.org/TestingUcu2017/TestingOpenCart.svg?branch=master)](https://travis-ci.org/TestingUcu2017/TestingOpenCart)
+
 # coveralls
 [![Coverage Status](https://coveralls.io/repos/github/TestingUcu2017/TestingOpenCart/badge.svg?branch=master)](https://coveralls.io/github/TestingUcu2017/TestingOpenCart?branch=master)
 
