@@ -23,7 +23,6 @@ script:
 - php vendor/codeception/codeception/codecept run api
 - mvn -f tests/ui-functional/pom.xml test
 
-
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
   provider: azure_web_apps
