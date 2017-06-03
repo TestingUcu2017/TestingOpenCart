@@ -2,6 +2,9 @@ language: php
 php:
 - 5.4
 
+jdk:
+  - oraclejdk8
+
 sudo: false
 
 install:
