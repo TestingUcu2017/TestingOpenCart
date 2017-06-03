@@ -22,8 +22,6 @@ script:
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
   provider: azure_web_apps
-  
-
 
 notifications:
   slack:
