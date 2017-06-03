@@ -21,6 +21,7 @@ script:
 - phpunit -c tests/phpunit/phpunit.xml
 - sonar-scanner
 - php vendor/codeception/codeception/codecept run api
+- mvn -DtestSourceDirectory=tests/ui-functional/ test
 
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
