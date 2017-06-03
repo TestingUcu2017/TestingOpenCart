@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import test.java.pages.HomePage;
+import test.java.pages.LoginPage;
 import test.java.pages.SearchResult;
 
 public class OpenCartTest {
@@ -15,6 +16,8 @@ public class OpenCartTest {
 		SearchResult searchResult = homePage.search("iMac"); 
 		searchResult.addToCart("iMac");
 		searchResult.removeFromCart("iMac");
-		searchResult.navigateToLogin();
+		LoginPage loginPage = searchResult.navigateToLogin();
+		loginPage.login("vicky@algo.com", "1234");
+		
 	}
 }

@@ -11,6 +11,6 @@ public class HomePage extends OpenCartBasePage {
 	
 	public HomePage() {
 		super(null);
-		driver.get("http://open-cart.azurewebsites.net");
+		driver.get("https://opencart.abstracta.us/");
 	}
 }
