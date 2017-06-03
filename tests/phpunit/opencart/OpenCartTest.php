@@ -1,7 +1,7 @@
 <?php
 define ( 'OC_ROOT', "/var/www/html/" . getenv("OPENCART_CONTEXT") . '/' );
-//class OpenCartTest extends PHPUnit_Framework_TestCase {
-class OpenCartTest  {
+class OpenCartTest extends \PHPUnit_Framework_TestCase {
+//class OpenCartTest  {
     protected $registry;
     protected $front;
     public static $_OPENCART = OC_ROOT;
