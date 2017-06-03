@@ -17,8 +17,6 @@ addons:
 
 script:
 - jdk_switcher use oraclejdk8
-- java -version
-- echo %JAVA_HOME%
 - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
 - phpunit -c tests/phpunit/phpunit.xml
 - sonar-scanner
