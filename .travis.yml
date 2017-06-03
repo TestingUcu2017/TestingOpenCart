@@ -8,6 +8,7 @@ install:
 - travis_retry composer self-update
 - travis_retry composer install --no-interaction --prefer-source --dev
 
+
 addons:
   sonarqube:
     organization: "testingucu2017-github"
