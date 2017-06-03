@@ -3,7 +3,6 @@ package test.java.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
@@ -29,23 +28,18 @@ public abstract class OpenCartBasePage {
 	@FindBy(how = How.XPATH, using = "//div[@id='top-links']//a[text()='Login']")
 	private WebElement loginButton;
 	
-	protected OpenCartBasePage(WebDriver driver){
-		if(driver == null){
-			System.setProperty("webdriver.chrome.driver", "C:/Users/Silvia/Documents/UCU/Testing/open-cart/chromedriver.exe");
-			driver = new ChromeDriver();
-		}
+	protected OpenCartBasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 	
-	public SearchResult search(String string){
+	public SearchResult search(String string) {
 		searchInput.sendKeys(string);
 		searchButton.click();
 		return new SearchResult(driver);
 	}
 	
-	public void removeFromCart(String prod) throws InterruptedException{
-		
+	public void removeFromCart(String prod) throws InterruptedException {
 		SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//button[contains(@class,'disabled')]"), 10);
 		SeleniumUtils.waitForElementToDisappear(driver, By.xpath("//button[contains(@class,'disabled')]"), 30);
 		openCartButton.click();
@@ -53,7 +47,7 @@ public abstract class OpenCartBasePage {
 		removeButton.click();
 	}
 	
-	public LoginPage navigateToLogin(){
+	public LoginPage navigateToLogin() {
 		myAccountButton.click();
 		loginButton.click();
 		return new LoginPage(driver);

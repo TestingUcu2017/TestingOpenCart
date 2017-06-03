@@ -21,12 +21,19 @@ script:
 - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
 - phpunit -c tests/phpunit/phpunit.xml
 - sonar-scanner
+- php vendor/codeception/codeception/codecept run api
+
 
 notifications:
   slack:
     on_success: always
   email:
     recipients:
-      - example@gmail.com      
+      - TestingUcu2017@gmail.com      
     on_success: never  # default: change
     on_failure: always # default: always
+
+
+
+
+
