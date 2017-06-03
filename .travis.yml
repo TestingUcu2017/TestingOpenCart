@@ -16,10 +16,10 @@ addons:
       secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
 
 script:
-- find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-- phpunit -c tests/phpunit/phpunit.xml
-- sonar-scanner
-- php vendor/codeception/codeception/codecept run api
+#- find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
+#- phpunit -c tests/phpunit/phpunit.xml
+#- sonar-scanner
+#- php vendor/codeception/codeception/codecept run api
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
