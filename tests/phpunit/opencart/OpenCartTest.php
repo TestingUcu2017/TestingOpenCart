@@ -1,137 +1,275 @@
 <?php
-
-class OpenCartTest extends PHPUnit_Framework_TestCase
-{
-    static $loaded = false;
-    static $registry;
-
-    public static function isAdmin()
-    {
-        return is_int(strpos(get_called_class(), "AdminTest"));
+define ( 'OC_ROOT', "/var/www/html/" . getenv("OPENCART_CONTEXT") . '/' );
+//class OpenCartTest extends PHPUnit_Framework_TestCase {
+class OpenCartTest  {
+    protected $registry;
+    protected $front;
+    public static $_OPENCART = OC_ROOT;
+    public static function getConfigurationPath() {
+        $admin = strpos ( get_called_class (), "AdminTest" );
+        return self::$_OPENCART . ($admin === false ? '' : 'admin/') . 'config.php';
     }
+    public function __get($key) {
+        return $this->registry->get ( $key );
+    }
+    public function __set($key, $value) {
+        $this->registry->set ( $key, $value );
+    }
+    public function loadConfiguration() {
 
-    public static function loadConfiguration()
-    {
-        // OC_ROOT environment variable
-        $oc_root = getenv('OC_ROOT');
-        if ($oc_root != false && !empty($oc_root)) {
-            $_ENV['OC_ROOT'] = $oc_root;
-        }
-        if (!isset($_ENV['OC_ROOT'])) {
-            throw new \Exception('OC_ROOT environment variable needs to be set');
-        }
+        // either load admin or catalog config.php
+        $path = self::getConfigurationPath ();
 
-        // Path needs / at the end
-        if (substr($_ENV['OC_ROOT'], -1) != DIRECTORY_SEPARATOR) {
-            $_ENV['OC_ROOT'] .= DIRECTORY_SEPARATOR;
-        }
-
-        $config_path = $_ENV['OC_ROOT'] . (self::isAdmin() === false ? '' : 'admin/') . 'config.php';
-
-        if (file_exists($config_path)) {
-            require_once($config_path);
+        // Configuration
+        if (file_exists ( $path )) {
+            require_once ($path);
         } else {
-            throw new Exception("Missing config file at: " . $config_path);
+            throw new Exception ( 'OpenCart has to be installed first!' .  self::$_OPENCART  . ' with path ' . $path );
         }
     }
+    public function __construct() {
+        $this->loadConfiguration ();
 
-    public static function loadOpenCart()
-    {
-        if (!self::$loaded) {
-            $application_config = 'test-config';
-            $_SERVER['SERVER_PORT'] = 80;
-            $_SERVER['SERVER_PROTOCOL'] = 'CLI';
-            $_SERVER['REQUEST_METHOD'] = 'GET';
-            $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        // Startup
+        require_once (DIR_SYSTEM . 'startup.php');
 
-            ob_start();
-            self::loadConfiguration();
-            require_once(DIR_SYSTEM . 'startup.php');
-            require_once(DIR_SYSTEM . 'framework.php');
-            ob_end_clean();
+        // Application Classes
+        require_once (DIR_SYSTEM . 'library/customer.php');
+        require_once (DIR_SYSTEM . 'library/affiliate.php');
+        require_once (DIR_SYSTEM . 'library/currency.php');
+        require_once (DIR_SYSTEM . 'library/tax.php');
+        require_once (DIR_SYSTEM . 'library/weight.php');
+        require_once (DIR_SYSTEM . 'library/length.php');
+        require_once (DIR_SYSTEM . 'library/cart.php');
 
+        // Registry
+        $this->registry = new Registry ();
 
-            self::$registry = $registry;
-            self::$registry->set('controller', $controller);
+        // Loader
+        $loader = new Loader ( $this->registry );
+        $this->registry->set ( 'load', $loader );
 
-            if (self::isAdmin()) {
-                $session = new stdClass();
-                $session->data = array();
-                $session->session_id = bin2hex(openssl_random_pseudo_bytes(16));
-                $session->getId = function () use ($session) {
-                    return $session->session_id;
-                };
-                self::$registry->set('session', $session);
+        // Config
+        $config = new Config ();
+        $this->registry->set ( 'config', $config );
+
+        // Database
+        $db = new DB ( DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE );
+        $this->registry->set ( 'db', $db );
+
+        // assume a HTTP connection
+        $store_query = $db->query ( "SELECT * FROM " . DB_PREFIX . "store WHERE REPLACE(`url`, 'www.', '') = '" . $db->escape ( 'http://' . str_replace ( 'www.', '', $_SERVER ['HTTP_HOST'] ) . rtrim ( dirname ( $_SERVER ['PHP_SELF'] ), '/.\\' ) . '/' ) . "'" );
+
+        if ($store_query->num_rows) {
+            $config->set ( 'config_store_id', $store_query->row ['store_id'] );
+        } else {
+            $config->set ( 'config_store_id', 0 );
+        }
+
+        // Settings
+        $query = $db->query ( "SELECT * FROM " . DB_PREFIX . "setting WHERE store_id = '0' OR store_id = '" . ( int ) $config->get ( 'config_store_id' ) . "' ORDER BY store_id ASC" );
+
+        foreach ( $query->rows as $setting ) {
+            if (! $setting ['serialized']) {
+                $config->set ( $setting ['key'], $setting ['value'] );
+            } else {
+                $config->set ( $setting ['key'], unserialize ( $setting ['value'] ) );
             }
+        }
 
-            self::$loaded = true;
+        if (! $store_query->num_rows) {
+            $config->set ( 'config_url', HTTP_SERVER );
+            $config->set ( 'config_ssl', HTTPS_SERVER );
+        }
+
+        // Url
+        $url = new Url ( $config->get ( 'config_url' ), $config->get ( 'config_secure' ) ? $config->get ( 'config_ssl' ) : $config->get ( 'config_url' ) );
+        $this->registry->set ( 'url', $url );
+
+        // Request
+        $request = new Request ();
+        $this->registry->set ( 'request', $request );
+
+        // Response
+        $response = new Response ();
+        $response->addHeader ( 'Content-Type: text/html; charset=utf-8' );
+        $response->setCompression ( $config->get ( 'config_compression' ) );
+        $this->registry->set ( 'response', $response );
+
+        // Cache
+        $cache = new Cache ();
+        $this->registry->set ( 'cache', $cache );
+
+        // Session
+        $session = new Session ();
+        $this->registry->set ( 'session', $session );
+
+        // Language Detection
+        $languages = array ();
+
+        $query = $db->query ( "SELECT * FROM `" . DB_PREFIX . "language` WHERE status = '1'" );
+
+        foreach ( $query->rows as $result ) {
+            $languages [$result ['code']] = $result;
+        }
+
+        $detect = '';
+
+        if (isset ( $request->server ['HTTP_ACCEPT_LANGUAGE'] ) && $request->server ['HTTP_ACCEPT_LANGUAGE']) {
+            $browser_languages = explode ( ',', $request->server ['HTTP_ACCEPT_LANGUAGE'] );
+
+            foreach ( $browser_languages as $browser_language ) {
+                foreach ( $languages as $key => $value ) {
+                    if ($value ['status']) {
+                        $locale = explode ( ',', $value ['locale'] );
+
+                        if (in_array ( $browser_language, $locale )) {
+                            $detect = $key;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (isset ( $session->data ['language'] ) && array_key_exists ( $session->data ['language'], $languages ) && $languages [$session->data ['language']] ['status']) {
+            $code = $session->data ['language'];
+        } elseif (isset ( $request->cookie ['language'] ) && array_key_exists ( $request->cookie ['language'], $languages ) && $languages [$request->cookie ['language']] ['status']) {
+            $code = $request->cookie ['language'];
+        } elseif ($detect) {
+            $code = $detect;
+        } else {
+            $code = $config->get ( 'config_language' );
+        }
+
+        if (! isset ( $session->data ['language'] ) || $session->data ['language'] != $code) {
+            $session->data ['language'] = $code;
+        }
+
+        if (! isset ( $request->cookie ['language'] ) || $request->cookie ['language'] != $code) {
+            setcookie ( 'language', $code, time () + 60 * 60 * 24 * 30, '/', $request->server ['HTTP_HOST'] );
+        }
+
+        $config->set ( 'config_language_id', $languages [$code] ['language_id'] );
+        $config->set ( 'config_language', $languages [$code] ['code'] );
+
+        // Language
+        $language = new Language ( $languages [$code] ['directory'] );
+        $language->load ( $languages [$code] ['filename'] );
+        $this->registry->set ( 'language', $language );
+
+        // Document
+        $this->registry->set ( 'document', new Document () );
+
+        // Customer
+        $this->registry->set ( 'customer', new Customer ( $this->registry ) );
+
+        // Affiliate
+        $this->registry->set ( 'affiliate', new Affiliate ( $this->registry ) );
+
+        if (isset ( $request->get ['tracking'] )) {
+            setcookie ( 'tracking', $request->get ['tracking'], time () + 3600 * 24 * 1000, '/' );
+        }
+
+        // Currency
+        $this->registry->set ( 'currency', new Currency ( $this->registry ) );
+
+        // Tax
+        $this->registry->set ( 'tax', new Tax ( $this->registry ) );
+
+        // Weight
+        $this->registry->set ( 'weight', new Weight ( $this->registry ) );
+
+        // Length
+        $this->registry->set ( 'length', new Length ( $this->registry ) );
+
+        // Cart
+        $this->registry->set ( 'cart', new Cart ( $this->registry ) );
+
+        // Encryption
+        $this->registry->set ( 'encryption', new Encryption ( $config->get ( 'config_encryption' ) ) );
+
+        // Front Controller
+        $this->front = new Front ( $this->registry );
+
+        // TODO: check if preactions are neccessary for testing purpouses...
+
+        // SEO URL's
+        // $this->front->addPreAction(new Action('common/seo_url'));
+        // Maintenance Mode
+        // $this->front->addPreAction(new Action('common/maintenance'));
+    }
+    public function customerLogin($user, $password, $override = false) {
+
+        // set a REMOTE_ADDR for the customer ...
+        $this->request->server ['REMOTE_ADDR'] = '127.0.0.1';
+        $logged = $this->customer->login ( $user, $password, $override );
+
+        if (! $logged) {
+            throw new Exception ( 'Could not login customer' );
+        }
+    }
+    public function customerLogout() {
+        if ($this->customer->isLogged ()) {
+            $this->customer->logout ();
         }
     }
 
-    public function __get($name)
-    {
-        return self::$registry->get($name);
+    // legal hack to access a private property, this is only neccessary because
+    // my pull request was rejected: https://github.com/opencart/opencart/pull/607
+    public function getOutput() {
+        $class = new ReflectionClass ( "Response" );
+        $property = $class->getProperty ( "output" );
+        $property->setAccessible ( true );
+        return $property->getValue ( $this->response );
     }
 
-    public function __construct()
-    {
-        self::loadOpenCart();
+    /*
+     * A Controller Object is returned, the actual action is not executed @throws Exception if controller doesn't exist
+     */
+    public function loadControllerByRoute($route) {
+        $action = new Action ( $route );
+
+        // copied from front controller to resolve the action controller and return it:
+        if (file_exists ( $action->getFile () )) {
+            require_once ($action->getFile ());
+
+            $class = $action->getClass ();
+
+            return new $class ( $this->registry );
+        }
+
+        throw new Exception ( "Controller doesn't exist!" );
     }
+    public function dispatchAction($route) {
 
-    public function dispatchAction($route, $request_method = 'GET', $data = array())
-    {
-        if ($request_method != 'GET' && $request_method != 'POST') {
-            $request_method = 'GET';
+        // Router
+        if (! empty ( $route )) {
+            $action = new Action ( $route );
+        } else {
+            $action = new Action ( 'common/home' );
         }
 
-        foreach ($data as $key => $value) {
-            $this->request->{strtolower($request_method)}[$key] = $value;
-        }
-
-        $this->request->get['route'] = $route;
-        $this->request->server['REQUEST_METHOD'] = $request_method;
-        $this->controller->dispatch(new Action($route), new Action($this->config->get('action_error')));
+        // Dispatch
+        $this->front->dispatch ( $action, new Action ( 'error/not_found' ) );
 
         return $this->response;
     }
-
-    public function loadModel($route)
-    {
-        $this->load->model($route);
-        $parts = explode("/", $route);
+    public function loadModelByRoute($route) {
+        $this->load->model ( $route );
+        $parts = explode ( "/", $route );
 
         $model = 'model';
-        foreach ($parts as $part) {
+
+        foreach ( $parts as $part ) {
             $model .= "_" . $part;
         }
 
         return $this->$model;
     }
 
-    public function login($username, $password, $override = false)
-    {
-        $logged = false;
-
-        if (!$this->isAdmin() && ($logged = $this->customer->login($username, $password, $override))) { // login as customer
-            $this->session->data['customer_id'] = $this->customer->getId();
-        } elseif ($logged = $this->user->login($username, $password)) {
-            $this->session->data['user_id'] = $this->user->getId();
-            $this->request->get['token'] = $this->session->data['token'] = bin2hex(openssl_random_pseudo_bytes(16));
-        }
-
-        return $logged;
-    }
-
-    public function logout()
-    {
-        if ($this->isAdmin()) {
-            $this->user->logout();
-            unset($this->session->data['user_id']);
-            unset($this->session->data['token']);
-        } else {
-            $this->customer->logout();
-            unset($this->session->data['customer_id']);
-        }
+    function execute_sql($fileName) {
+        $cmd = "mysql -u " . DB_USER . " " . DB_NAME . " < " . dirname(__FILE__) . "/" . $fileName;
+        system($cmd);
     }
 
 }
