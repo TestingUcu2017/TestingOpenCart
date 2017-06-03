@@ -7,5 +7,4 @@ public class HomePage extends OpenCartBasePage {
 	public HomePage(WebDriver driver) {
 		super(driver);
 	}
-	
 }

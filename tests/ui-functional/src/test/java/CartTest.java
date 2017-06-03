@@ -64,9 +64,6 @@ public class CartTest {
 		SearchResult searchResult = homePage.search(productName); 
 		searchResult.addToCart(productName);
 		searchResult.removeFromCart(productName);
-		LoginPage loginPage = searchResult.navigateToLogin();
-		loginPage.login("vicky@algo.com", "1234");
-		
 	}
 
 }
