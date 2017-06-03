@@ -1,10 +1,6 @@
 language: php
 php:
 - 5.4
-- hhvm
-
-services:
-  - mysql
 
 sudo: false
 
@@ -23,6 +19,10 @@ script:
 - sonar-scanner
 - php vendor/codeception/codeception/codecept run api
 
+# Las credenciales fueron agregadas directamente en Travis CI -> Settings
+deploy:
+  provider: azure_web_apps
+  
 
 
 notifications:
