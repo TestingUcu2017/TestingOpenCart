@@ -23,6 +23,10 @@ script:
 - sonar-scanner
 - php vendor/codeception/codeception/codecept run api
 
+# Las credenciales fueron agregadas directamente en Travis CI -> Settings
+deploy:
+  provider: azure_web_apps
+  
 
 notifications:
   slack:
