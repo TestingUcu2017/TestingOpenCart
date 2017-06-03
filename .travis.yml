@@ -2,8 +2,8 @@ language: php
 php:
 - 5.4
 
-jdk:
-  - oraclejdk8
+before_install:
+  - jdk_switcher use oraclejdk8
 
 sudo: false
 
