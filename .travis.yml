@@ -42,7 +42,8 @@ script:
   # - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
   - sonar-scanner
   - php vendor/codeception/codeception/codecept run api
-  - cd vaddy-master | nohup http-server -p 8080 >/dev/null 2>&1 & | cd .. # seguridad
+  - cd vaddy-master | nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
+  - cd ..
   - cd pa11y-master | cdpa11y  http://opencart.abstracta.us -s WCAG2AAA | cd ..
   - mvn -f tests/ui-functional/pom.xml test
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
