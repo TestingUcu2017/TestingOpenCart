@@ -5,11 +5,11 @@ php:
 dist: trusty
 sudo: true
 
-before_install:                  
-  - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2                                                                                                                                                             
-  - tar -xf phantomjs-2.1.1-linux-x86_64.tar.bz2                                                                                                                                                                                                
-  - sudo rm -rf /usr/local/phantomjs                                                                                                                                                                                                          
-  - sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs
+#before_install:                  
+#  - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2                                                                                                                                                             
+#  - tar -xf phantomjs-2.1.1-linux-x86_64.tar.bz2                                                                                                                                                                                                
+#  - sudo rm -rf /usr/local/phantomjs                                                                                                                                                                                                          
+#  - sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs
 
 install:
   - travis_retry composer self-update
@@ -24,38 +24,40 @@ cache:
         - $HOME/.composer/cache
 
 
-addons:
-  sonarqube:
-    organization: "testingucu2017-github"
-    token:
-      secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
+#addons:
+#  sonarqube:
+#    organization: "testingucu2017-github"
+#    token:
+#      secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
 
 before_script:
   - npm install -g http-server
-  - npm install -g pa11y
-  - npm install -g pa11y-reporter-ci
+#  - npm install -g pa11y
+#  - npm install -g pa11y-reporter-ci
+#  - npm install -g pa11y
+#  - npm install -g pa11y-reporter-ci
   - php -S 127.0.0.1:8765 -t upload >/dev/null 2>&1 &
 
 script:
   - nvm install stable | nvm alias default stable | nvm use stable
   - jdk_switcher use oraclejdk8
-  - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
+#  - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
   # - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
-  - sonar-scanner
-  - php vendor/codeception/codeception/codecept run api
-  - cd vaddy-master
-  - nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
-  - cd ..
-  - cd pa11y-master
-  - pa11y  http://opencart.abstracta.us -s WCAG2AAA
-  - cd ..
-  - mvn -f tests/ui-functional/pom.xml test
-  - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
-  - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
-  - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
+#  - sonar-scanner
+#  - php vendor/codeception/codeception/codecept run api
+#  - cd vaddy-master
+#  - nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
+#  - cd ..
+#  - cd pa11y-master
+#  - pa11y  http://opencart.abstracta.us -s WCAG2AAA
+#  - cd ..
+#  - mvn -f tests/ui-functional/pom.xml test
+#  - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+#  - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+#  - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
 
-after_success:
-  - bin/coveralls -v --exclude-no-stmt
+#after_success:
+#  - bin/coveralls -v --exclude-no-stmt
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
