@@ -59,6 +59,9 @@ after_success:
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
   provider: azure_web_apps
+  username: "$open-cart"
+  password: "b0v22TwzoPtv7ESsnfyT74xoFZZjPawpRbsuZ9kfd4jGBeaLE4q2wXT7xoXH"
+  site: "open-cart"
 
 notifications:
   slack:
