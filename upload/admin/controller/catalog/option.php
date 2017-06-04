@@ -10,6 +10,9 @@ class ControllerCatalogOption extends Controller {
 		$this->load->model('catalog/option');
 
 		$this->getList();
+		
+		
+		
 	}
 
 	public function add() {
