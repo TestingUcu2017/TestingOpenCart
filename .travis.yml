@@ -6,8 +6,12 @@ dist: trusty
 sudo: false
 
 install:
-- travis_retry composer self-update
-- travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
+  - mkdir -p build/logs
+  - mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
+  - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
 
 cache:
     directories:
@@ -22,16 +26,19 @@ addons:
 
 
 script:
-- jdk_switcher use oraclejdk8
-- find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-- phpunit -c tests/phpunit/phpunit.xml
-- sonar-scanner
-- php vendor/codeception/codeception/codecept run api
-- mvn -f tests/ui-functional/pom.xml test
-- mkdir -p build/logs
-- mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
-- travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
-- if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
+  - jdk_switcher use oraclejdk8
+  - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
+  - phpunit -c tests/phpunit/phpunit.xml
+  - sonar-scanner
+  - php vendor/codeception/codeception/codecept run api
+  - mvn -f tests/ui-functional/pom.xml test
+  - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+  - phpunit -v
+  - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+  - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
+
+after_success:
+  - bin/coveralls -v --exclude-no-stmt
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
