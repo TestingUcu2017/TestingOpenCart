@@ -9,11 +9,16 @@ install:
 - travis_retry composer self-update
 - travis_retry composer install --no-interaction --prefer-source --dev
 
+cache:
+    directories:
+        - $HOME/.composer/cache
+
 addons:
   sonarqube:
     organization: "testingucu2017-github"
     token:
       secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
+
 
 script:
 - jdk_switcher use oraclejdk8
@@ -22,6 +27,10 @@ script:
 - sonar-scanner
 - php vendor/codeception/codeception/codecept run api
 - mvn -f tests/ui-functional/pom.xml test
+- mkdir -p build/logs
+- mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
+- travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
+- if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
