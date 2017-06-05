@@ -7,7 +7,7 @@ import org.openqa.selenium.support.events.WebDriverEventListener;
 
 public class DriverListener implements WebDriverEventListener {
 
-	private static final Long time = 1000l;
+	private static final Long time = 1500l;
 	
 	@Override
 	public void afterAlertAccept(WebDriver arg0) {
