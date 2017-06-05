@@ -58,10 +58,10 @@ script:
   - cd pa11y-master
   - pa11y --threshold 40 open-cart.azurewebsites.net -s WCAG2AA
   - cd ..
-  - mvn -f tests/ui-functional/pom.xml test
-  - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
-  - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
-  - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
+  # - mvn -f tests/ui-functional/pom.xml test
+  # - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+  # - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+  # - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
