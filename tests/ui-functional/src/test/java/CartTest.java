@@ -18,7 +18,7 @@ import org.openqa.selenium.WebDriver;
 import test.java.framework.WebDriverUtils;
 import test.java.framework.WebDriverUtils.Browser;
 import test.java.pages.HomePage;
-import test.java.pages.SearchResult;
+import test.java.pages.SearchResultPage;
 
 @RunWith(Parameterized.class)
 public class CartTest {
@@ -63,7 +63,7 @@ public class CartTest {
 	public void addAndRemoveFromCart() throws InterruptedException {
 		
 		HomePage homePage = new HomePage(driver);
-		SearchResult searchResultPage = homePage.search(productName); 
+		SearchResultPage searchResultPage = homePage.search(productName); 
 		
 		searchResultPage.addToCart(productName);
 		assertTrue("Item added to cart.", searchResultPage.getNumberOfItemsOnCart() == 1);

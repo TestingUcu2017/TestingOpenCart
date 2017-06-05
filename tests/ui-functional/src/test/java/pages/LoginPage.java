@@ -7,10 +7,6 @@ import org.openqa.selenium.support.How;
 
 public class LoginPage extends OpenCartBasePage {
 	
-	public LoginPage(WebDriver driver){
-		super(driver);
-	}
-	
 	@FindBy(how = How.XPATH, using = "//input[@name='email']")
 	private WebElement emailUser;
 	
@@ -20,7 +16,11 @@ public class LoginPage extends OpenCartBasePage {
 	@FindBy(how = How.XPATH, using = "//input[@value='Login']")
 	private WebElement accessButton;
 	
-	public void login(String email, String password){
+	public LoginPage(WebDriver driver){
+		super(driver);
+	}
+	
+	public void login(String email, String password) {
 		emailUser.sendKeys(email);
 		passwordUser.sendKeys(password);
 		accessButton.click();

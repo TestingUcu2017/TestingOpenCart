@@ -18,7 +18,7 @@ import org.openqa.selenium.WebDriver;
 import test.java.framework.WebDriverUtils;
 import test.java.framework.WebDriverUtils.Browser;
 import test.java.pages.HomePage;
-import test.java.pages.LoginPage;
+import test.java.pages.SignUpPage;
 
 @RunWith(Parameterized.class)
 public class SignUpTest {
@@ -64,10 +64,9 @@ public class SignUpTest {
 	public void signUpTest() throws InterruptedException {
 		
 		HomePage homePage = new HomePage(driver);
-		LoginPage loginPage = homePage.navigateToLogin();
+		SignUpPage signUpPage = homePage.navigateToSignUp();
 		
-		loginPage.login(email, password);
-		assertTrue("User '"+ email +"' is logged in.", loginPage.isLoggedIn());
+		assertTrue("New user was registered in.", signUpPage.registerRandomUser());
 		
 	}
 	
