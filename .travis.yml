@@ -40,7 +40,7 @@ before_script:
   - npm install -g pa11y
   - npm install -g pa11y-reporter-ci
   - php -S 127.0.0.1:8765 -t upload &
-  - npm install coveralls --save-dev # Se instala coveralls
+  #- npm install coveralls --save-dev # Se instala coveralls
 
 script:
   - nvm install stable | nvm alias default stable | nvm use stable
