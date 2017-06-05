@@ -47,7 +47,7 @@ script:
   - nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
   - cd ..
   - cd pa11y-master
-  - pa11y  http://opencart.abstracta.us -s WCAG2AAA
+  - pa11y  http://http://open-cart.azurewebsites.net/ -s WCAG2AAA
   - cd ..
   - mvn -f tests/ui-functional/pom.xml test
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
