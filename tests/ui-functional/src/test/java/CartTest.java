@@ -48,7 +48,7 @@ public class CartTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-		driver.get("http://open-cart.azurewebsites.net/");
+		driver.get("http://localhost:8765/");
 	}
 	
 	@After

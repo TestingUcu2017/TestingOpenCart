@@ -28,8 +28,7 @@ public class SignUpTest {
 	@Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-                 { "Windows 10", Browser.Firefox, "53.0" }, 
-                 { "Windows 10", Browser.Chrome, "58.0" }
+                 { "Windows 10", Browser.Firefox, "53.0" }
            });
     }
 	
@@ -45,7 +44,7 @@ public class SignUpTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-		driver.get("http://open-cart.azurewebsites.net/");
+		driver.get("http://localhost:8765/");
 	}
 	
 	@After

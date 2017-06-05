@@ -85,7 +85,7 @@ public class SignUpPage extends OpenCartBasePage {
 		agreeInput.click();
 		submitInput.click();
 		
-		return 0 != SeleniumUtils.getNumberOfElements(driver, By.xpath("//*[text()='Your Account Has Been Created!']"));
+		return 0 != SeleniumUtils.getNumberOfElements(driver, By.xpath("//*[contains(text(),'Your Account Has Been Created!')]"));
 	}
 
 }
