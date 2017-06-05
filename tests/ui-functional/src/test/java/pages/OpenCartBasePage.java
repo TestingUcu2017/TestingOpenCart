@@ -28,6 +28,9 @@ public abstract class OpenCartBasePage {
 	@FindBy(how = How.XPATH, using = "//div[@id='top-links']//a[text()='Login']")
 	private WebElement loginButton;
 	
+	@FindBy(how = How.XPATH, using = "//span[@id='cart-total']")
+	private WebElement cartTotalLabel;
+	
 	protected OpenCartBasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -51,5 +54,13 @@ public abstract class OpenCartBasePage {
 		myAccountButton.click();
 		loginButton.click();
 		return new LoginPage(driver);
+	}
+	
+	public Integer getNumberOfItemsOnCart() {
+		return Integer.valueOf(cartTotalLabel.getText().split(" ")[0]);
+	}
+	
+	public Boolean isLoggedIn() throws InterruptedException {
+		return !SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//div[@id='top-links']//a[text()='Login']"), 10);
 	}
 }

@@ -1,5 +1,7 @@
 package test.java;
 
+import static org.junit.Assert.assertTrue;
+
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,7 +19,6 @@ import test.java.framework.WebDriverUtils;
 import test.java.framework.WebDriverUtils.Browser;
 import test.java.pages.HomePage;
 import test.java.pages.LoginPage;
-import test.java.pages.SearchResult;
 
 @RunWith(Parameterized.class)
 public class SignUpTest {
@@ -50,7 +51,8 @@ public class SignUpTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-		driver.get("http://opencart.abstracta.us/");
+//		driver = WebDriverUtils.create();
+		driver.get("http://open-cart.azurewebsites.net/");
 	}
 	
 	@After
@@ -59,10 +61,13 @@ public class SignUpTest {
 	}
 	
 	@Test
-	public void signUpTest() {
+	public void signUpTest() throws InterruptedException {
+		
 		HomePage homePage = new HomePage(driver);
 		LoginPage loginPage = homePage.navigateToLogin();
+		
 		loginPage.login(email, password);
+		assertTrue("User '"+ email +"' is logged in.", loginPage.isLoggedIn());
 		
 	}
 	

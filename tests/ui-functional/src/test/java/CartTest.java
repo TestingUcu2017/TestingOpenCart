@@ -1,5 +1,7 @@
 package test.java;
 
+import static org.junit.Assert.assertTrue;
+
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,7 +18,6 @@ import org.openqa.selenium.WebDriver;
 import test.java.framework.WebDriverUtils;
 import test.java.framework.WebDriverUtils.Browser;
 import test.java.pages.HomePage;
-import test.java.pages.LoginPage;
 import test.java.pages.SearchResult;
 
 @RunWith(Parameterized.class)
@@ -49,7 +50,8 @@ public class CartTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-		driver.get("http://opencart.abstracta.us/");
+//		driver = WebDriverUtils.create();
+		driver.get("http://open-cart.azurewebsites.net/");
 	}
 	
 	@After
@@ -61,9 +63,14 @@ public class CartTest {
 	public void addAndRemoveFromCart() throws InterruptedException {
 		
 		HomePage homePage = new HomePage(driver);
-		SearchResult searchResult = homePage.search(productName); 
-		searchResult.addToCart(productName);
-		searchResult.removeFromCart(productName);
+		SearchResult searchResultPage = homePage.search(productName); 
+		
+		searchResultPage.addToCart(productName);
+		assertTrue("Item added to cart.", searchResultPage.getNumberOfItemsOnCart() == 1);
+		
+		searchResultPage.removeFromCart(productName);
+		assertTrue("Item removed from cart.", searchResultPage.getNumberOfItemsOnCart() == 0);
+		
 	}
 
 }

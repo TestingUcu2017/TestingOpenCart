@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 public class WebDriverUtils {
 	
@@ -20,8 +21,9 @@ public class WebDriverUtils {
 	public static WebDriver create() {
 		System.setProperty("webdriver.chrome.driver", "/Users/gabo/Desktop/chromedriver");
 		WebDriver driver = new ChromeDriver();
-		driver.manage().window().maximize();
-		return driver;
+		EventFiringWebDriver eDriver = new EventFiringWebDriver(driver);
+		eDriver.register(new DriverListener());
+		return eDriver;
 	}
 
 	public static WebDriver create(String platform, Browser browser, String version) throws MalformedURLException {

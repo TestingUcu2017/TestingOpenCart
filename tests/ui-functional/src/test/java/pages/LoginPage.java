@@ -1,14 +1,11 @@
 package test.java.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import test.java.framework.SeleniumUtils;
-
-public class LoginPage extends OpenCartBasePage{
+public class LoginPage extends OpenCartBasePage {
 	
 	public LoginPage(WebDriver driver){
 		super(driver);
