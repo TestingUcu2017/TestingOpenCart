@@ -62,10 +62,11 @@ script:
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
   #- /bin/coveralls -v --exclude-no-stmt
-  - coveralls
+  - travis_retry php coveralls.phar -v
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
