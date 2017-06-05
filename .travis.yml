@@ -61,9 +61,9 @@ script:
   # - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
 
 after_success:
-  - cd vendor/bin/
+  - cd /bin/
   - ls
-  - vendor/bin/coveralls -v --exclude-no-stmt
+  - /coveralls -v --exclude-no-stmt
 
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
