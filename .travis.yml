@@ -34,6 +34,9 @@ addons:
     organization: "testingucu2017-github"
     token:
       secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
+  sauce_connect:
+    username: "testingucu.2017"
+    access_key: "822c92b4-028e-4448-9507-0f13c1a1d720"
 
 before_script:
   - npm install -g http-server
