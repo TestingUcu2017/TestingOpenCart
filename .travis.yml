@@ -34,13 +34,14 @@ addons:
       secure: "3a62d805f9521d93899e87be247d253c1fcb3107"
 
 before_script:
+  - nvm install stable | nvm alias default stable | nvm use stable
   - npm install -g http-server
   - npm install -g pa11y
   - npm install -g pa11y-reporter-ci
-  - php -S 127.0.0.1:8765 -t upload >/dev/null 2>&1 &
+
 
 script:
-  - nvm install stable | nvm alias default stable | nvm use stable
+  - php -S 127.0.0.1:8765 -t upload >/dev/null 2>&1 &
   - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
   # - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
