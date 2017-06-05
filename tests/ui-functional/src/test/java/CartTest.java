@@ -29,9 +29,7 @@ public class CartTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                  { "Windows 10", Browser.Firefox, "53.0", "iMac" }, 
-                 { "Windows 10", Browser.Chrome, "58.0", "iMac" },
-                 { "Windows 10", Browser.Firefox, "53.0", "iPhone" }, 
-                 { "Windows 10", Browser.Chrome, "58.0", "iPhone" },
+                 { "Windows 10", Browser.Chrome, "58.0", "iPhone" }
            });
     }
 	
@@ -50,7 +48,6 @@ public class CartTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-//		driver = WebDriverUtils.create();
 		driver.get("http://open-cart.azurewebsites.net/");
 	}
 	

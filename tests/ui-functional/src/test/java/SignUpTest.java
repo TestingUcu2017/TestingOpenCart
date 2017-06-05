@@ -28,8 +28,8 @@ public class SignUpTest {
 	@Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-                 { "Windows 10", Browser.Firefox, "53.0", "vicky@algo.com", "1234" }, 
-                 { "Windows 10", Browser.Chrome, "58.0", "testing@algo.com", "1234" },
+                 { "Windows 10", Browser.Firefox, "53.0" }, 
+                 { "Windows 10", Browser.Chrome, "58.0" }
            });
     }
 	
@@ -42,16 +42,9 @@ public class SignUpTest {
     @Parameter(2)
     public String version;
     
-    @Parameter(3)
-    public String email;
-    
-    @Parameter(4)
-    public String password;
-	
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-//		driver = WebDriverUtils.create();
 		driver.get("http://open-cart.azurewebsites.net/");
 	}
 	
@@ -66,7 +59,7 @@ public class SignUpTest {
 		HomePage homePage = new HomePage(driver);
 		SignUpPage signUpPage = homePage.navigateToSignUp();
 		
-		assertTrue("New user was registered in.", signUpPage.registerRandomUser());
+		assertTrue("New user was registered.", signUpPage.registerRandomUser());
 		
 	}
 	
