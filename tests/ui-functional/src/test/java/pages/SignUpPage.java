@@ -59,7 +59,8 @@ public class SignUpPage extends OpenCartBasePage {
 		super(driver);
 	}
 	
-	public Boolean registerRandomUser() {
+	public Boolean registerRandomUser() throws InterruptedException {
+		SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//input[@name='firstname']"), 15);
 		firstNameInput.sendKeys("First Name");
 		lastNameInput.sendKeys("Last Name");
 		
