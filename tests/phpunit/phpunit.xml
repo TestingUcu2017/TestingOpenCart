@@ -11,6 +11,9 @@
             <directory>./opencart/system</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
     <php>
         <env name="OC_ROOT" value="../../upload" />
     </php>
