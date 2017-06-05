@@ -44,7 +44,7 @@ public class SignUpTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-		driver.get("http://localhost:8765/");
+		driver.get("http://opencart.abstracta.us/");
 	}
 	
 	@After
