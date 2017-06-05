@@ -6,9 +6,9 @@ define('HTTP_SERVER', 'https://127.0.0.1:8765/');
 // HTTPS
 define('HTTPS_SERVER', 'https://127.0.0.1:8765/');
 
-define('DIR_APPLICATION', __DIR__ . '/upload/catalog/');
-define('DIR_SYSTEM', __DIR__ . '/upload/system/');
-define('DIR_IMAGE', __DIR__ . '/upload/image/');
+define('DIR_APPLICATION', __DIR__ . '/catalog/');
+define('DIR_SYSTEM', __DIR__ . '/system/');
+define('DIR_IMAGE', __DIR__ . '/image/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/theme/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
