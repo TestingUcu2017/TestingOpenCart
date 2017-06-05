@@ -77,6 +77,7 @@ public class SignUpPage extends OpenCartBasePage {
 		country.selectByVisibleText("Uruguay");
 		
 		Select region = new Select(regionSelect);
+		SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//option[text()='Montevideo']"), 10);
 		region.selectByVisibleText("Montevideo");
 		
 		passwordInput.sendKeys("1234");
