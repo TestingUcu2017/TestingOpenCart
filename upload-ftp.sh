@@ -7,6 +7,6 @@ ftp -vn $HOST <<END_SCRIPT
 quote USER $USER
 quote PASS $PASSWD
 binary
-put -r .
+mput *
 quit
 END_SCRIPT
