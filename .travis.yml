@@ -44,7 +44,8 @@ before_script:
   - npm install -g pa11y-reporter-ci
   - php -S 127.0.0.1:8765 -t upload &
   - mkdir -p build/logs
-
+  - touch build/logs/clover.xml
+  
 script:
   - nvm install stable | nvm alias default stable | nvm use stable
   - jdk_switcher use oraclejdk8
