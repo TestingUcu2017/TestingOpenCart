@@ -8,6 +8,6 @@ ftp -vn $HOST <<END_SCRIPT
 quote USER $USER
 quote PASS $PASSWD
 binary
-put $FILE
+put ./
 quit
 END_SCRIPT
