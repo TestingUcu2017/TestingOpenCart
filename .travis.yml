@@ -50,15 +50,15 @@ before_script:
   - mkdir -p build/logs
   - touch build/logs/clover.xml
 
-  
+
 
   
 script:
   - nvm install stable | nvm alias default stable | nvm use stable
   - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
-  - phpunit --coverage-clover build/logs/clover.xml
+#  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
+# - phpunit --coverage-clover build/logs/clover.xml
   - sonar-scanner
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
@@ -73,7 +73,7 @@ script:
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
   
 after_success:
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
+#  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
   
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
