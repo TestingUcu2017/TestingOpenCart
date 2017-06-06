@@ -76,7 +76,7 @@ deploy:
   site: "open-cart"
   skip_cleanup: true 
  on:
-   branch: releas
+   branch: release
    
 notifications:
   slack:
