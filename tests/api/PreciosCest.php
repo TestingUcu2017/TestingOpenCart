@@ -7,7 +7,7 @@ use Codeception\Example;
 use Codeception\Util\HttpCode;
 use function json_decode;
 
-class ProductosCest {
+class PreciosCest {
 
     public function _before(ApiTester $I) {
         
@@ -20,19 +20,19 @@ class ProductosCest {
     /**
      * @return array
      */
-    protected function productosProvider() {
+    protected function preciosProvider() {
         $file = file_get_contents(__DIR__ . '/productos.json');
         return json_decode($file, true);
     }
 
     /**
-     * @dataprovider productosProvider
+     * @dataprovider preciosProvider
      */
-    public function buscarProducto(ApiTester $I, Example $producto) {
-        $I->wantTo('Buscar: ' . $producto['termino']);
-        $I->sendGET('', ['route' => 'product/search', 'search' => $producto['termino']]);
+    public function consultarPrecio(ApiTester $I, Example $precio) {
+        $I->wantTo('Consultar precio de: ' . $precio['product_id']);
+        $I->sendGET('', ['route' => 'product/product', 'product_id' => $precio['product_id']]);
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseContains($producto['resultado']);
+        $I->seeResponseContains($precio['precio']);
     }
 
 }
