@@ -8,6 +8,13 @@ sudo: true
 services:
   - mysql
 
+os:
+  - linux
+
+env:
+  - COMPOSER_FLAGS="--prefer-lowest"
+  - COMPOSER_FLAGS=""
+
 before_install:
   - mysql -u root -e 'CREATE DATABASE opencart;'
   - mysql -u root opencart < opencart.sql
@@ -16,6 +23,12 @@ before_install:
   - sudo rm -rf /usr/local/phantomjs
   - sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs
   - sudo apt-get install ncftp
+  #########
+  - source .travis/travis.sh
+  - if [[ $TRAVIS_PHP_VERSION != hhvm && $TRAVIS_PHP_VERSION != nightly && $COVERAGE != yes ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then echo 'opcache.enable=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then echo 'opcache.enable_cli=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+  - travis_retry composer self-update
 
 
 install:
@@ -25,10 +38,12 @@ install:
   - mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
   - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
+  - travis_retry composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction $COMPOSER_FLAGS
 
 cache:
     directories:
         - $HOME/.composer/cache
+        - $HOME/.php-cs-fixer
 
 
 addons:
@@ -39,6 +54,8 @@ addons:
   sauce_connect:
     username: "testingucu.2017"
     access_key: "822c92b4-028e-4448-9507-0f13c1a1d720"
+  code_climate:
+    repo_token: "a9ad3982c8fd94a8f9f48b79c4738d13a397876e41db41e2e21ca1782a68512a"
 
 before_script:
   - chmod +x upload-ftp.sh
@@ -49,6 +66,10 @@ before_script:
   - php -S 127.0.0.1:8765 -t upload &
   - mkdir -p build/logs
   - touch build/logs/clover.xml
+  ####
+  - git config --global user.email ""
+  - git config --global user.name "TestingUcu2017"
+  - mkdir -p "$HOME/.php-cs-fixer"
 
 
 
@@ -71,19 +92,31 @@ script:
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
+  ##########
+   - composer validate
+   - if [[ $COVERAGE == yes ]]; then vendor/bin/phpunit --coverage-clover=build/logs/clover.xml; else vendor/bin/phpunit --no-coverage; fi
+   - if [[ $EXECUTE_CS_CHECK == yes ]]; then php -n -d memory_limit=768M vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run; fi
   
 after_success:
-#  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
+  - if [[ $COVERAGE == yes ]]; then php composer/bin/test-reporter; fi
+  - vendor/bin/test-reporter
+
+
   
+
+
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
 deploy:
   provider: azure_web_apps
   username: "$open-cart"
   password: "b0v22TwzoPtv7ESsnfyT74xoFZZjPawpRbsuZ9kfd4jGBeaLE4q2wXT7xoXH"
   site: "open-cart"
+  file: build/codeclimate-test-reporter.phar
   skip_cleanup: true 
   on:
    branch: release
+
+
    
 notifications:
   slack:
