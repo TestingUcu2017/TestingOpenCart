@@ -74,7 +74,9 @@ deploy:
   username: "$open-cart"
   password: "b0v22TwzoPtv7ESsnfyT74xoFZZjPawpRbsuZ9kfd4jGBeaLE4q2wXT7xoXH"
   site: "open-cart"
-
+  skip_cleanup: true 
+ on:
+   branch: releas
 notifications:
   slack:
     on_success: always
