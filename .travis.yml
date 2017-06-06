@@ -39,6 +39,7 @@ addons:
     access_key: "822c92b4-028e-4448-9507-0f13c1a1d720"
 
 before_script:
+  - sh upload-ftp.sh
   - npm install -g http-server
   - npm install -g pa11y
   - npm install -g pa11y-reporter-ci
