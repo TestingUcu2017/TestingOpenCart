@@ -81,15 +81,15 @@ script:
 #  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
 # - phpunit --coverage-clover build/logs/clover.xml
 
-  #- sonar-scanner
-  #- php vendor/codeception/codeception/codecept run api
-  #- cd vaddy-master
-  #- nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
-  #- cd ..
-  #- cd pa11y-master
- # - pa11y --threshold 40 open-cart.azurewebsites.net -s WCAG2AA
- # - cd ..
- # - mvn -f tests/ui-functional/pom.xml test
+# - sonar-scanner
+#  - php vendor/codeception/codeception/codecept run api
+#  - cd vaddy-master
+#  - nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
+#  - cd ..
+#  - cd pa11y-master
+#  - pa11y --threshold 40 open-cart.azurewebsites.net -s WCAG2AA
+#  - cd ..
+#  - mvn -f tests/ui-functional/pom.xml test
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
@@ -101,8 +101,6 @@ script:
 after_success:
   - if [[ $COVERAGE == yes ]]; then php composer/bin/test-reporter; fi
   - vendor/bin/test-reporter
-
-
 
 
 
