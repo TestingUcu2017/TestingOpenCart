@@ -60,8 +60,6 @@ script:
 #  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
 # - phpunit --coverage-clover build/logs/clover.xml
   - composer require codeclimate/php-test-reporter:dev-master --dev
-  - phpunit --coverage-clover build/logs/clover.xml
-  - CODECLIMATE_REPO_TOKEN= "ea67f355ac27360c9c71b22f42a36a80336cd345" ./vendor/bin/test-reporter
   - sonar-scanner
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
