@@ -26,6 +26,7 @@ install:
   - mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
   - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
+  - npm install --save-dev eslint
 
 cache:
     directories:
@@ -74,7 +75,10 @@ script:
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
 
-  
+after_script:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < coverage/lcov.info
+
 after_success:
 #  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
  - vendor/bin/test-reporter
