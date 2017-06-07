@@ -8,11 +8,13 @@ engines:
       languages:
       - php
   eslint:
-    enabled: true
+    enabled: false
   fixme:
     enabled: true
 ratings:
   paths:
-  - "src/**.js"
+  - "**.inc"
+  - "**.module"
+  - "**.php"
 exclude_paths:
 - dist/**/*
