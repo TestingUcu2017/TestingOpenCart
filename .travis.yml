@@ -56,6 +56,8 @@ before_script:
   - php -S 127.0.0.1:8765 -t upload &
   - mkdir -p build/logs
   - touch build/logs/clover.xml
+  - composer self-update",
+  - composer install --prefer-source --no-interaction --dev
 
   
 script:
@@ -66,6 +68,7 @@ script:
 # - phpunit --coverage-clover build/logs/clover.xml
   - composer require codeclimate/php-test-reporter:dev-master --dev
   - phpunit --coverage-clover build/logs/clover.xml
+
   - sonar-scanner
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
@@ -82,10 +85,13 @@ script:
 after_script:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
+  - php vendor/bin/coveralls -v
 
 after_success:
 #  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
  - vendor/bin/test-reporter
+ - sh -c 'if [ \"$TRAVIS_PHP_VERSION\" != \"hhvm\" ]; then php vendor/bin/coveralls -v; fi;
+ #- if [[ "$REPORT_COVERAGE" == "true" ]] ; then ./vendor/bin/test-reporter --coverage-report=build/logs/clover.xml ; fi
 
 
   
