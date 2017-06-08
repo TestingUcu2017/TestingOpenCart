@@ -22,7 +22,7 @@ before_install:
 
 
 install:
- # - travis_retry composer self-update
+  - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
   - npm install --save-dev eslint
   - mkdir -p build/logs
@@ -56,7 +56,7 @@ before_script:
   - php -S 127.0.0.1:8765 -t upload &
   - mkdir -p build/logs
   - touch build/logs/clover.xml
-  - composer self-update",
+  - composer self-update
   - composer install --prefer-source --no-interaction --dev
 
   
