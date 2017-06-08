@@ -71,6 +71,7 @@ script:
  # - phpunit --coverage-clover build/logs/clover.xml
 
   - sonar-scanner
+
   
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
