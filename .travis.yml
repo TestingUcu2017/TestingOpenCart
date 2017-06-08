@@ -22,7 +22,7 @@ before_install:
 
 
 install:
-  - travis_retry composer self-update
+ # - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
   - npm install --save-dev eslint
   - mkdir -p build/logs
