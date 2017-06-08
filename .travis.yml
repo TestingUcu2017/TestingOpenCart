@@ -48,6 +48,7 @@ addons:
   code_climate:
       repo_token: "ea67f355ac27360c9c71b22f42a36a80336cd345"
 
+
 before_script:
   - chmod +x upload-ftp.sh
   - bash upload-ftp.sh
@@ -71,8 +72,6 @@ script:
  # - phpunit --coverage-clover build/logs/clover.xml
 
   - sonar-scanner
-
-  
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
   - nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
