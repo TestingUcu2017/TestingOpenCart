@@ -46,7 +46,7 @@ addons:
     username: "testingucu.2017"
     access_key: "822c92b4-028e-4448-9507-0f13c1a1d720"
   code_climate:
-      repo_token: "ea67f355ac27360c9c71b22f42a36a80336cd345"
+      repo_token: "011ad7d37cd7b5219b42a12d07fba180c1e7da66"
 
 
 before_script:
