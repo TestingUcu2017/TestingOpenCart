@@ -71,6 +71,7 @@ script:
  # - phpunit --coverage-clover build/logs/clover.xml
 
   - sonar-scanner
+  
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
   - nohup http-server -p 8080 >/dev/null 2>&1 & # seguridad
