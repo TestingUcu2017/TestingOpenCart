@@ -30,7 +30,7 @@ install:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
   - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
   - npm install --save-dev eslint
-  - pecl install xdebug
+
 
 cache:
     directories:
