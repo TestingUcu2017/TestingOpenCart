@@ -30,6 +30,7 @@ install:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
   - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
   - npm install --save-dev eslint
+  - pecl install xdebug
 
 cache:
     directories:
@@ -67,7 +68,7 @@ script:
 #  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
 # - phpunit --coverage-clover build/logs/clover.xml
   - composer require codeclimate/php-test-reporter:dev-master --dev
-  - phpunit --coverage-clover build/logs/clover.xml
+ # - phpunit --coverage-clover build/logs/clover.xml
 
   - sonar-scanner
   - php vendor/codeception/codeception/codecept run api
