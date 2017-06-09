@@ -65,6 +65,7 @@ script:
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
   - phpunit -c tests/phpunit/opencart/OpenCartTest.php # Estos test no corresponden.
   - phpunit --coverage-clover build/logs/clover.xml
+
  # - composer require codeclimate/php-test-reporter:dev-master
  # - phpunit --coverage-clover build/logs/clover.xml
   - sonar-scanner
