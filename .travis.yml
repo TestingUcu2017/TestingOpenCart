@@ -59,7 +59,6 @@ before_script:
 
   
 script:
-
   - nvm install stable | nvm alias default stable | nvm use stable
   - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
