@@ -65,7 +65,7 @@ script:
   - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
   - phpunit -c tests/phpunit/opencart/OpenCartTest.php
-  - phpunit --coverage-clover build/logs/clover.xml
+# - phpunit --coverage-clover build/logs/clover.xml
 # - composer require codeclimate/php-test-reporter:dev-master
 # - phpunit --coverage-clover build/logs/clover.xml
   - sonar-scanner
