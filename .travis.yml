@@ -57,10 +57,13 @@ before_script:
   - npm install -g pa11y
   - npm install -g pa11y-reporter-ci
   - php -S 127.0.0.1:8765 -t upload &
-  - mkdir -p build/logs
+ # - mkdir -p build/logs
   - touch build/logs/clover.xml
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+  - mkdir -p build/logs
 
   
 script:
@@ -84,6 +87,7 @@ script:
   - pa11y --threshold 40 open-cart.azurewebsites.net -s WCAG2AA
   - cd ..
   - mvn -f tests/ui-functional/pom.xml test
+
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
    - phpunit -v
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
