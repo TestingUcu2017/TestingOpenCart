@@ -68,16 +68,13 @@ before_script:
   
 script:
 
-  #- cc-test-reporter before-build
   - nvm install stable | nvm alias default stable | nvm use stable
   - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-
 #  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
 # - phpunit --coverage-clover build/logs/clover.xml
   - composer require codeclimate/php-test-reporter:dev-master --dev
  # - phpunit --coverage-clover build/logs/clover.xml
-
   - sonar-scanner
   - php vendor/codeception/codeception/codecept run api
   - cd vaddy-master
@@ -87,9 +84,8 @@ script:
   - pa11y --threshold 40 open-cart.azurewebsites.net -s WCAG2AA
   - cd ..
   - mvn -f tests/ui-functional/pom.xml test
-
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
-   - phpunit -v
+  - phpunit -v
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
   
@@ -105,8 +101,8 @@ after_success:
 #  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
  - vendor/bin/test-reporter
  - sh -c 'if [ \"$TRAVIS_PHP_VERSION\" != \"hhvm\" ]; then php vendor/bin/coveralls -v; fi;
- #- if [[ "$REPORT_COVERAGE" == "true" ]] ; then ./vendor/bin/test-reporter --coverage-report=build/logs/clover.xml ; fi
- - cc-test-reporter after-build --exit-code $?
+ #- if [[ "$REPORT_COVERAGE" == "#
+ # - cc-test-reporter after-build --exit-code $?
 
  before_deploy:
      - if [ "${BOX}" = "yes" ]; then curl -LSs http://box-project.github.io/box2/installer.php | php; fi;
