@@ -8,9 +8,6 @@ sudo: true
 services:
   - mysql
 
-#env:
- # CODECLIMATE_REPO_TOKEN: a9ad3982c8fd94a8f9f48b79c4738d13a397876e41db41e2e21ca1782a68512a
-
 before_install:
   - mysql -u root -e 'CREATE DATABASE opencart;'
   - mysql -u root opencart < opencart.sql
@@ -19,7 +16,6 @@ before_install:
   - sudo rm -rf /usr/local/phantomjs
   - sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs
   - sudo apt-get install ncftp
-
 
 install:
   - travis_retry composer self-update
@@ -99,13 +95,6 @@ after_success:
 #  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
   - vendor/bin/test-reporter
   - sh -c 'if [ \"$TRAVIS_PHP_VERSION\" != \"hhvm\" ]; then php vendor/bin/coveralls -v; fi;
-
-
- before_deploy:
-  - if [ "${BOX}" = "yes" ]; then curl -LSs http://box-project.github.io/box2/installer.php | php; fi;
-  - if [ "${BOX}" = "yes" ]; then composer update --no-dev --no-interaction ${COMPOSER_FLAGS}; fi;
-  - if [ "${BOX}" = "yes" ]; then php -d phar.readonly=false box.phar build; fi;
-
 
   
 # Las credenciales fueron agregadas directamente en Travis CI -> Settings
