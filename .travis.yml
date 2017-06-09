@@ -55,7 +55,6 @@ before_script:
   - touch build/logs/clover.xml
   - composer self-update
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install
   - mkdir -p build/logs
 
   
@@ -64,7 +63,7 @@ script:
   - nvm install stable | nvm alias default stable | nvm use stable
   - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
-#  - phpunit -c tests/phpunit/phpunit.xml # Estos test no corresponden.
+#  - phpunit -c tests/phpunit/opencart/OpenCartTest.php # Estos test no corresponden.
 # - phpunit --coverage-clover build/logs/clover.xml
   - composer require codeclimate/php-test-reporter:dev-master --dev
  # - phpunit --coverage-clover build/logs/clover.xml
