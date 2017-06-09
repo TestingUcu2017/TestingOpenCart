@@ -12,6 +12,7 @@ sudo: true
 services:
   - mysql
 
+  
 before_install:
   - mysql -u root -e 'CREATE DATABASE opencart;'
   - mysql -u root opencart < opencart.sql
