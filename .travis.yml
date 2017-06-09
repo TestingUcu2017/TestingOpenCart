@@ -31,8 +31,6 @@ install:
   - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
   - npm install --save-dev eslint
 
-
-
 cache:
     directories:
         - $HOME/.composer/cache
