@@ -86,7 +86,7 @@ script:
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
-  - bzt prueba-1hilo.yml
+  - sudo bzt prueba-1hilo.yml
 
 
 after_script:
