@@ -51,7 +51,7 @@ before_script:
   - npm install -g pa11y
   - npm install -g pa11y-reporter-ci
   - php -S 127.0.0.1:8765 -t upload &
- # - mkdir -p build/logs
+  - mkdir -p build/logs
   - touch build/logs/clover.xml
   - composer self-update
   - curl -s http://getcomposer.org/installer | php
