@@ -2,7 +2,7 @@ actor: ApiTester
 modules:
     enabled:
         - REST:
-            url: http://127.0.0.1:8765/
+            url: http://waws-prod-sn1-003.azurewebsites.windows.net/
             depends: PhpBrowser
         - \Helper\Api
         

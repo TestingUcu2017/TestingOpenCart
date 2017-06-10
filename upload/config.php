@@ -1,10 +1,10 @@
 <?php
 
 // HTTP
-define('HTTP_SERVER', 'https://127.0.0.1:8765/');
+define('HTTP_SERVER', 'http://waws-prod-sn1-003.azurewebsites.windows.net/');
 
 // HTTPS
-define('HTTPS_SERVER', 'https://127.0.0.1:8765/');
+define('HTTPS_SERVER', 'http://waws-prod-sn1-003.azurewebsites.windows.net/');
 
 define('DIR_APPLICATION', __DIR__ . '/catalog/');
 define('DIR_SYSTEM', __DIR__ . '/system/');
