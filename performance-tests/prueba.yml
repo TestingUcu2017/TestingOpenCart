@@ -1,0 +1,41 @@
+execution:
+- concurrency: 1
+  hold-for: 1m
+  scenario: prueba-testing
+
+scenarios:
+  prueba-testing:
+    requests:
+    - http://open-cart.azurewebsites.net/ 
+
+reporting:
+- module: final-stats
+- module: junit-xml
+  filename: performance-tests/prueba.xml
+  data-source: pass-fail
+- module: passfail
+  criteria:
+    - subject: avg-rt
+      message: Promedio mayor a 6 segundos
+      condition: '>'
+      threshold: 6s
+      timeframe: 5s
+      logic: for
+      fail: true
+      stop: false
+    - subject: p90
+      message: P90 mayor a 8 segundos
+      condition: '>'
+      threshold: 8s
+      timeframe: 5s
+      logic: for
+      fail: true
+      stop: false
+
+modules:
+  jmeter:
+    path: .local/jmeter
+  console: 
+    disable: true
+settings:
+  default-executor: jmeter
