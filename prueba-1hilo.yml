@@ -24,9 +24,9 @@ reporting:
       fail: true
       stop: false
     - subject: p90
-      message: P90 mayor a 9 segundos
+      message: P90 mayor a 8 segundos
       condition: '>'
-      threshold: 9s
+      threshold: 8s
       timeframe: 5s
       logic: for
       fail: true
