@@ -62,7 +62,6 @@ script:
 
 
   - nvm install stable | nvm alias default stable | nvm use stable
-  - jdk_switcher use oraclejdk8
   - find admin catalog tests -name *.php | xargs -n 1 -P4 php -l
 #  - phpunit -c tests/phpunit/opencart/OpenCartTest.php
 # - phpunit --coverage-clover build/logs/clover.xml
@@ -76,11 +75,12 @@ script:
   - cd pa11y-master
   - pa11y --threshold 40 open-cart.azurewebsites.net -s WCAG2AA
   - cd ..
-  - mvn -f tests/ui-functional/pom.xml test
   - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
   - sudo bzt prueba.yml
+  - jdk_switcher use oraclejdk8
+  - mvn -q -f tests/ui-functional/pom.xml test
 
 
 
