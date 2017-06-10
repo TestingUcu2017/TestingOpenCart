@@ -7,6 +7,7 @@ ftp -ivn $HOST <<END_SCRIPT
 quote USER $USER
 quote PASS $PASSWD
 binary
+passive
 put *.*
 quit
 END_SCRIPT
