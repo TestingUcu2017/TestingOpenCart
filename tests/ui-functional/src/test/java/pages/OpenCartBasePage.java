@@ -28,28 +28,47 @@ public abstract class OpenCartBasePage {
 	@FindBy(how = How.XPATH, using = "//div[@id='top-links']//a[text()='Login']")
 	private WebElement loginButton;
 	
+	@FindBy(how = How.XPATH, using = "//div[@id='top-links']//a[text()='Register']")
+	private WebElement registerButton;
+	
 	protected OpenCartBasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 	
-	public SearchResult search(String string) {
+	public SearchResultPage search(String string) {
 		searchInput.sendKeys(string);
 		searchButton.click();
-		return new SearchResult(driver);
+		return new SearchResultPage(driver);
 	}
 	
 	public void removeFromCart(String prod) throws InterruptedException {
 		SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//button[contains(@class,'disabled')]"), 10);
-		SeleniumUtils.waitForElementToDisappear(driver, By.xpath("//button[contains(@class,'disabled')]"), 30);
+		SeleniumUtils.waitForElementToDisappear(driver, By.xpath("//button[contains(@class,'disabled')]"), 10);
 		openCartButton.click();
-		WebElement removeButton = SeleniumUtils.getWebElement(driver, By.xpath("(//a[text()='"+ prod +"']//following::button[@title='Remove'])[1]"), 60);
+		WebElement removeButton = SeleniumUtils.getWebElement(driver, By.xpath("(//a[text()='"+ prod +"']//following::button[@title='Remove'])[1]"), 10);
 		removeButton.click();
+		SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//button[contains(@class,'disabled')]"), 10);
+		SeleniumUtils.waitForElementToDisappear(driver, By.xpath("//button[contains(@class,'disabled')]"), 10);
 	}
 	
 	public LoginPage navigateToLogin() {
 		myAccountButton.click();
 		loginButton.click();
 		return new LoginPage(driver);
+	}
+	
+	public SignUpPage navigateToSignUp() {
+		myAccountButton.click();
+		registerButton.click();
+		return new SignUpPage(driver);
+	}
+	
+	public Integer getNumberOfItemsOnCart() {
+		return Integer.valueOf(SeleniumUtils.getWebElement(driver, By.xpath("//span[@id='cart-total']"), 10).getText().split(" ")[0]);
+	}
+	
+	public Boolean isLoggedIn() throws InterruptedException {
+		return !SeleniumUtils.waitForElementToBeVisible(driver, By.xpath("//div[@id='top-links']//a[text()='Login']"), 10);
 	}
 }

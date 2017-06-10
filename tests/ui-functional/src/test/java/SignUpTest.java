@@ -1,5 +1,7 @@
 package test.java;
 
+import static org.junit.Assert.assertTrue;
+
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,8 +18,7 @@ import org.openqa.selenium.WebDriver;
 import test.java.framework.WebDriverUtils;
 import test.java.framework.WebDriverUtils.Browser;
 import test.java.pages.HomePage;
-import test.java.pages.LoginPage;
-import test.java.pages.SearchResult;
+import test.java.pages.SignUpPage;
 
 @RunWith(Parameterized.class)
 public class SignUpTest {
@@ -27,8 +28,7 @@ public class SignUpTest {
 	@Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-                 { "Windows 10", Browser.Firefox, "53.0", "vicky@algo.com", "1234" }, 
-                 { "Windows 10", Browser.Chrome, "58.0", "testing@algo.com", "1234" },
+                 { "Windows 10", Browser.Firefox, "53.0" }
            });
     }
 	
@@ -41,12 +41,6 @@ public class SignUpTest {
     @Parameter(2)
     public String version;
     
-    @Parameter(3)
-    public String email;
-    
-    @Parameter(4)
-    public String password;
-	
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
@@ -59,10 +53,12 @@ public class SignUpTest {
 	}
 	
 	@Test
-	public void signUpTest() {
+	public void signUpTest() throws InterruptedException {
+		
 		HomePage homePage = new HomePage(driver);
-		LoginPage loginPage = homePage.navigateToLogin();
-		loginPage.login(email, password);
+		SignUpPage signUpPage = homePage.navigateToSignUp();
+		
+		assertTrue("New user was registered.", signUpPage.registerRandomUser());
 		
 	}
 	
