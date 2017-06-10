@@ -3,9 +3,7 @@
 namespace tests\api;
 
 use ApiTester;
-use Codeception\Example;
 use Codeception\Util\HttpCode;
-use function json_decode;
 
 class ProductosCest {
 
@@ -17,22 +15,20 @@ class ProductosCest {
         
     }
 
-    /**
-     * @return array
-     */
-    protected function productosProvider() {
-        $file = file_get_contents(__DIR__ . '/productos.json');
-        return json_decode($file, true);
+    public function buscarProducto(ApiTester $I) {
+        $I->wantTo('Buscar un iPhone');
+        $I->sendGET('', ['route' => 'product/search', 'search' => 'iphone']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+//        $I->seeResponseIsJson();
+        $I->seeResponseContains('image/cache/catalog/demo/iphone_1-228x228.jpg');
     }
 
-    /**
-     * @dataprovider productosProvider
-     */
-    public function buscarProducto(ApiTester $I, Example $producto) {
-        $I->wantTo('Buscar: ' . $producto['termino']);
-        $I->sendGET('', ['route' => 'product/search', 'search' => $producto['termino']]);
+    public function consultarPrecio(ApiTester $I) {
+        $I->wantTo('Consultar un precio');
+        $I->sendGET('', ['route' => 'product/product', 'product_id' => '41']);
         $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseContains($producto['resultado']);
+//        $I->seeResponseIsJson();
+        $I->seeResponseContains('$122.00');
     }
 
 }
