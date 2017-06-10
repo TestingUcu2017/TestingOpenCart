@@ -44,7 +44,7 @@ public class SignUpTest {
 	@Before
 	public void before() throws MalformedURLException {
 		driver = WebDriverUtils.create(platform, browser, version);
-		driver.get("http://waws-prod-sn1-003.azurewebsites.windows.net/");
+		driver.get("http://open-cart.azurewebsites.net/");
 	}
 	
 	@After
