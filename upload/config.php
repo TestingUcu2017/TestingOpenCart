@@ -1,10 +1,10 @@
 <?php
 
 // HTTP
-define('HTTP_SERVER', 'http://waws-prod-sn1-003.azurewebsites.windows.net/');
+define('HTTP_SERVER', 'http://open-cart.azurewebsites.net/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://waws-prod-sn1-003.azurewebsites.windows.net/');
+define('HTTPS_SERVER', 'http://open-cart.azurewebsites.net/');
 
 define('DIR_APPLICATION', __DIR__ . '/catalog/');
 define('DIR_SYSTEM', __DIR__ . '/system/');

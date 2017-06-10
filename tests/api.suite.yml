@@ -2,7 +2,7 @@ actor: ApiTester
 modules:
     enabled:
         - REST:
-            url: http://waws-prod-sn1-003.azurewebsites.windows.net/
+            url: http://open-cart.azurewebsites.net/
             depends: PhpBrowser
         - \Helper\Api
         
