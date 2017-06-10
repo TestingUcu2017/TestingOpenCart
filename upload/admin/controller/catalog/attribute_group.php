@@ -1,8 +1,9 @@
 <?php
 class ControllerCatalogAttributeGroup extends Controller {
 	private $error = array();
-	private const ATTRIBUTE_GROUP = 'catalog/attribute_group';
-
+	private ATTRIBUTE_GROUP = 'catalog/attribute_group';
+	
+	
 	public function index() {
 		$this->load->language(ATTRIBUTE_GROUP);
 
