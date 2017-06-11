@@ -21,6 +21,7 @@ before_install:
   #- sudo apt-get install oracle-java8-installer
   - sudo apt-get install python default-jre-headless python-tk python-pip python-dev \libxml2-dev libxslt-dev zlib1g-dev
   - sudo pip install bzt
+  - sudo pip install --upgrade six
 
 install:
   - travis_retry composer self-update
@@ -81,7 +82,6 @@ script:
   #- sudo bzt prueba.yml
   - jdk_switcher use oraclejdk8
   - mvn -q -f tests/ui-functional/pom.xml test
-  - jre_switcher use oraclejre8
   - sudo bzt prueba.yml
 
 
