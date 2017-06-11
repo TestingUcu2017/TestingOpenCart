@@ -82,7 +82,8 @@ script:
   #- sudo bzt prueba.yml
   - jdk_switcher use oraclejdk8
   - mvn -q -f tests/ui-functional/pom.xml test
-  - sudo bzt prueba.yml
+  - sudo bzt prueba-1hilo.yml
+  - sudo bzt prueba-10hilos.yml
 
 
 

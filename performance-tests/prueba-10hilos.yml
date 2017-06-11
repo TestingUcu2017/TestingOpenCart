@@ -1,0 +1,36 @@
+execution:
+- concurrency: 10
+  hold-for: 30s
+  ramp-up: 30s
+  scenario: prueba-testing
+
+scenarios:
+  prueba-testing:
+    requests:
+    - http://open-cart.azurewebsites.net/
+
+reporting:
+- module: passfail
+  criteria:
+    - subject: avg-rt
+      condition: '>'
+      threshold: 6s
+      timeframe: 5s
+      logic: for
+      fail: true
+      stop: false
+    - subject: p90
+      condition: '>'
+      threshold: 8s
+      timeframe: 5s
+      logic: for
+      fail: true
+      stop: false
+
+modules:
+  jmeter:
+    path: .local/jmeter
+
+settings:
+  default-executor: jmeter
+

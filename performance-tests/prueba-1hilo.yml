@@ -10,23 +10,23 @@ scenarios:
 
 reporting:
 - module: final-stats
-- module: junit-xml
-  filename: performance-tests/prueba.xml
-  data-source: pass-fail
+#- module: junit-xml
+#  filename: performance-tests/prueba.xml
+#  data-source: pass-fail
 - module: passfail
   criteria:
     - subject: avg-rt
-      message: Promedio mayor a 2 segundos
+      message: Promedio mayor a 4 segundos
       condition: '>'
-      threshold: 2s
+      threshold: 4s
       timeframe: 5s
       logic: for
       fail: true
       stop: false
     - subject: p90
-      message: P90 mayor a 3 segundos
+      message: P90 mayor a 6 segundos
       condition: '>'
-      threshold: 3s
+      threshold: 6s
       timeframe: 5s
       logic: for
       fail: true
