@@ -30,6 +30,8 @@ reporting:
 modules:
   jmeter:
     path: .local/jmeter
+  console: 
+    disable: true
 
 settings:
   default-executor: jmeter
