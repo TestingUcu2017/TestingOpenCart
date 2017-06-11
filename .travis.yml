@@ -48,7 +48,7 @@ before_install:
   #- sudo add-apt-repository ppa:webupd8team/java
   #- sudo apt-get update
   #- sudo apt-get install oracle-java8-installer
-  - sudo pip install bzt
+  - sudo pip install -q bzt
 
 install:
   - composer install
@@ -60,7 +60,7 @@ install:
 
 before_script:
   - chmod +x upload-ftp.sh
-  - bash upload-ftp.sh >/dev/null
+  - bash upload-ftp.sh
   - npm install -g http-server
   - npm install -g pa11y
   - npm install -g pa11y-reporter-ci
