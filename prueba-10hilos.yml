@@ -14,14 +14,14 @@ reporting:
   criteria:
     - subject: avg-rt
       condition: '>'
-      threshold: 6s
+      threshold: 8s
       timeframe: 5s
       logic: for
       fail: true
       stop: false
     - subject: p90
       condition: '>'
-      threshold: 8s
+      threshold: 11s
       timeframe: 5s
       logic: for
       fail: true

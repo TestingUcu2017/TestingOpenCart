@@ -16,17 +16,15 @@ reporting:
 - module: passfail
   criteria:
     - subject: avg-rt
-      message: Promedio mayor a 4 segundos
       condition: '>'
-      threshold: 4s
+      threshold: 6s
       timeframe: 5s
       logic: for
       fail: true
       stop: false
     - subject: p90
-      message: P90 mayor a 6 segundos
       condition: '>'
-      threshold: 6s
+      threshold: 9s
       timeframe: 5s
       logic: for
       fail: true
