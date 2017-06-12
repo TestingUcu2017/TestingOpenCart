@@ -90,6 +90,7 @@ script:
   - sudo bzt prueba-1hilo.yml
   - sudo bzt prueba-10hilos.yml
   - cd php-gtmetrix
+  - POST /api/0.1/test
   - curl --user santi4707@hotmail.com:6b8b92fdedae63dbec1a9e179baa8137\ --form url=http://open-cart.azurewebsites.net\ https://gtmetrix.com/api/0.1/test
   - GET /api/0.1/test/{test_id}
   - cd ..
