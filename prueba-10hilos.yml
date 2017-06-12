@@ -26,6 +26,14 @@ reporting:
       logic: for
       fail: true
       stop: false
+    - subject: fail
+      condition: '>'
+      threshold: 50%
+      timeframe: 5s
+      logic: for
+      fail: true
+      stop: false
+
 
 modules:
   jmeter:

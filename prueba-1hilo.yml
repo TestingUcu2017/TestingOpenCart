@@ -6,13 +6,9 @@ execution:
 scenarios:
   prueba-testing:
     requests:
-    - http://open-cart.azurewebsites.net/ 
+    - http://open-cart.azurewebsites.net/
 
 reporting:
-- module: final-stats
-#- module: junit-xml
-#  filename: performance-tests/prueba.xml
-#  data-source: pass-fail
 - module: passfail
   criteria:
     - subject: avg-rt
@@ -29,6 +25,14 @@ reporting:
       logic: for
       fail: true
       stop: false
+    - subject: fail
+      condition: '>'
+      threshold: 50%
+      timeframe: 5s
+      logic: for
+      fail: true
+      stop: false
+
 
 modules:
   jmeter:
