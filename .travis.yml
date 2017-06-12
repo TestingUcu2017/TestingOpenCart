@@ -47,6 +47,8 @@ before_install:
   - sudo mv phantomjs-2.1.1-linux-x86_64 /usr/local/phantomjs
   - sudo pip install -q bzt
   - sudo pip install --upgrade six
+  - sudo apt-get install -f
+  - sudo apt-get update --fix-missing
 
 install:
   - composer install
@@ -74,6 +76,11 @@ script:
 # - phpunit --coverage-clover build/logs/clover.xml
 # - composer require codeclimate/php-test-reporter:dev-master
 # - phpunit --coverage-clover build/logs/clover.xml
+  - cd php-gtmetrix
+  - POST /api/0.1/test
+  - curl --user santi4707@hotmail.com:6b8b92fdedae63dbec1a9e179baa8137; --form url=http://open-cart.azurewebsites.net/; https://gtmetrix.com/api/0.1/test;
+  - GET /api/0.1/test/{test_id}
+  - cd ..
   - sonar-scanner
   - vendor/codeception/codeception/codecept run api
   - cd vaddy-master
@@ -89,11 +96,7 @@ script:
   - mvn -q -f tests/ui-functional/pom.xml test
   - sudo bzt prueba-1hilo.yml
   - sudo bzt prueba-10hilos.yml
-  - cd php-gtmetrix
-  - POST /api/0.1/test
-  - curl --user santi4707@hotmail.com:6b8b92fdedae63dbec1a9e179baa8137\ --form url=http://open-cart.azurewebsites.net\ https://gtmetrix.com/api/0.1/test
-  - GET /api/0.1/test/{test_id}
-  - cd ..
+
 
 after_success:
 #  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
