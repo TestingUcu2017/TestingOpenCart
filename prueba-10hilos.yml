@@ -10,7 +10,6 @@ scenarios:
     - http://open-cart.azurewebsites.net/
 
 reporting:
-- module: blazemeter
 - module: passfail
   criteria:
     - subject: avg-rt
